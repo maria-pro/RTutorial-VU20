@@ -1,0 +1,29 @@
+---
+title: "masterClassR"
+author: "MariaProkofieva"
+date: "12/06/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(broom)
+#library()
+```
+
+# Data
+Data for the workshop comes from TidyTuesday [cocktail dataset](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-05-26/)
+
+
+```{r}
+cocktails <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-26/cocktails.csv')
+boston_cocktails <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-26/boston_cocktails.csv')
+
+cocktails %>% count(drink, category, sort=TRUE)
+
+boston_cocktails %>% count(name, ingridients, sort=TRUE)
+
+cocktails %>% n_distinct(cocktails$drink)
+
+```

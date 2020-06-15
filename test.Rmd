@@ -1,0 +1,62 @@
+---
+title: "Untitled"
+author: "MariaProkofieva"
+date: "13/06/2020"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library()
+```
+
+```{r}
+
+cocktails <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-26/cocktails.csv')
+boston_cocktails <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-26/boston_cocktails.csv')
+
+ boston_cocktails%>% count(name, sort=TRUE)
+ 
+test<- boston_cocktails %>% 
+   count(ingredient, sort=TRUE) %>%
+  # head(10)%>%
+   mutate(ingredient=fct_reorder(ingredient,n)) %>%
+   ggplot(aes(n, ingredient))+
+   geom_col()
+   axes_
+ 
+ str(boston_cocktails)
+   
+ boston_coctails %>% extract()
+ 
+ 
+ df <- tibble::tribble(
+  ~color,     ~a, ~b,
+  "blue",      1,  2,
+  "green",     6,  2,
+  "purple",    3,  3,
+  "red",       2,  3,
+  "yellow",    5,  1
+)
+ 
+ str(df)
+ class(df$color)
+ 
+ df$color<-as.factor(df$color)
+ 
+df$color <- factor(df$color)
+test<-
+  
+  df%>%
+  mutate(color=fct_reorder(color, b, .fun = identity))%>%
+  ggplot(aes(b, color))+
+  geom_col()
+
+
+
+
+fct_reorder(df$color, df$a)
+fct_reorder2(df$color, df$a, df$b)
+```

@@ -26,9 +26,10 @@ boston_cocktails <- read_csv('https://raw.githubusercontent.com/rfordatascience/
 ```
 
 ```{r}
-mr_boston <- tuesdata$boston_cocktails
+mr_boston <- boston_cocktails
 mr_boston %>%
   count(name, sort = TRUE)
+
 mr_boston %>%
   count(ingredient, sort = TRUE) %>%
   head(20) %>%
