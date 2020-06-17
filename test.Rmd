@@ -9,54 +9,63 @@ runtime: shiny
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library()
+library(skimr)
+library(tibble)
 ```
 
 ```{r}
+#let's load the files - you can see instruction on how to load also on the github page
+# https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-05-26/readme.md
 
+#we will be using the second dataset boston_coctails for this tutorial
+# you can have your own time with coctails dataset later!
 cocktails <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-26/cocktails.csv')
 boston_cocktails <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-26/boston_cocktails.csv')
 
- boston_cocktails%>% count(name, sort=TRUE)
- 
-test<- boston_cocktails %>% 
-   count(ingredient, sort=TRUE) %>%
-  # head(10)%>%
-   mutate(ingredient=fct_reorder(ingredient,n)) %>%
-   ggplot(aes(n, ingredient))+
-   geom_col()
-   axes_
- 
- str(boston_cocktails)
-   
- boston_coctails %>% extract()
- 
- 
- df <- tibble::tribble(
-  ~color,     ~a, ~b,
-  "blue",      1,  2,
-  "green",     6,  2,
-  "purple",    3,  3,
-  "red",       2,  3,
-  "yellow",    5,  1
-)
- 
- str(df)
- class(df$color)
- 
- df$color<-as.factor(df$color)
- 
-df$color <- factor(df$color)
-test<-
+#let's have a quick look at the data 
+# this gives us the first 20 rows of the dataset
+head(boston_cocktails, 20)
+
+#we can also have a fill of data types used there using summary function or skim from skimr library
+#make sure to install it first and load it (see above)
+summary(boston_cocktails)
+skim(boston_cocktails) # much more explanatory and easy to use!
   
-  df%>%
-  mutate(color=fct_reorder(color, b, .fun = identity))%>%
-  ggplot(aes(b, color))+
-  geom_col()
+# let's see how many different categories we have and count drinks in each
 
+boston_cocktails%>% 
+   distinct(name, category) %>%
+   count(category, sort=TRUE) 
+ # as it looks like there are quite a view categories with only one name, 
+ # we can lump them up together using fct_lump
 
+test<-boston_cocktails %>% 
+ # count (category) %>%
+  mutate(number=fct_lump_n(category, 5),
+         ingredient=fct_lump(ingredient, 3) %>%
+  count(number)
+ 
+   mutate(category=fct_lump(category, 5))
+ 
+ 
 
+ boston_cocktails%>% 
+   count(name, sort=TRUE)%>%
+   head(20)%>%
+   mutate(ingredient=fct_reorder(ingredient, n))%>%
+   ggplot(aes(n, ingredient))%>%
+   geom_col()
+ 
 
-fct_reorder(df$color, df$a)
-fct_reorder2(df$color, df$a, df$b)
+ boston_cocktails %>% 
+   count(category, ingredient, name="cat") %>%
+   mutate(ingredient=fct_reorder(ingredient,cat, .desc=FALSE)) %>%
+  head(10)%>%
+   ggplot(aes(cat, ingredient))+
+   geom_col()+
+  labs(title="most common ingredients")
+  
+
+ cocta   
+ 
 ```
