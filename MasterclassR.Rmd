@@ -13,6 +13,11 @@ output:
 ---
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(echo = TRUE,   
+                      message = FALSE,
+                      warning = FALSE
+)
 ```
 #Why R?
 
@@ -89,7 +94,7 @@ Some useful packages:
 
 ---
 
-background-image: url("images/w1.jpg")
+background-image: url("images/w2.jpg")
 background-position: 50% 50%
 class: center, bottom, inverse
 
@@ -99,14 +104,48 @@ class: center, bottom, inverse
 
 #So how do I start!
 
-- Create a new R script document from the menu `File -> New File -> R Script`;<sup>1</sup>
+- Create a new R script document from the menu `File -> New File -> R Script`
 
-- Create a new RMarkdown document from the menu `File -> New File -> RMarkdown`;<sup>1</sup>
+- Create a new RMarkdown document from the menu `File -> New File -> RMarkdown` 
 
 ---
 
-
 # Let's load some files
+
+We can load .csv files using `read_csv("filename")` function
+It can be your local file (e.g. MyDocuments/test.csv) or from a url
+
+The "assignment" is `<-`
+
+```{r}
+library(tidyverse)
+cocktails <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-26/cocktails.csv')
+```
+
+
+---
+
+#Look at me!
+
+To have a look at the data we can use `head(cocktails)` to display the first rows of data 
+
+Or we can use `glimpse(cocktails)` where we can see a every column in the data.
+
+To make sense of the structure and variables stats we can also use `skim(cocktails)` from the `skimr` package (you remember - you need to install it firtst and load using  `install.packages(skimr)` and `library(skimr)`)
+---
+```{r}
+head(cocktails)
+```
+---
+```{r}
+glimpse(cocktails)
+```
+---
+```{r}
+library(skimr)
+skim(cocktails)
+```
+
 
 
 
