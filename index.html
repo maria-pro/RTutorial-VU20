@@ -95,7 +95,7 @@ Some useful packages:
 
 ---
 
-background-image: url("images/w1.jpg")
+background-image: url("images/w2.jpg")
 background-position: 50% 50%
 class: center, bottom, inverse
 
@@ -105,14 +105,140 @@ class: center, bottom, inverse
 
 #So how do I start!
 
-- Create a new R script document from the menu `File -&gt; New File -&gt; R Script`;&lt;sup&gt;1&lt;/sup&gt;
+- Create a new R script document from the menu `File -&gt; New File -&gt; R Script`
 
-- Create a new RMarkdown document from the menu `File -&gt; New File -&gt; RMarkdown`;&lt;sup&gt;1&lt;/sup&gt;
+- Create a new RMarkdown document from the menu `File -&gt; New File -&gt; RMarkdown` 
 
 ---
 
-
 # Let's load some files
+
+We can load .csv files using `read_csv("filename")` function
+It can be your local file (e.g. MyDocuments/test.csv) or from a url
+
+The "assignment" is `&lt;-`
+
+
+```r
+library(tidyverse)
+cocktails &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-26/cocktails.csv')
+```
+
+
+---
+
+#Look at me!
+
+To have a look at the data we can use `head(cocktails)` to display the first rows of data 
+
+Or we can use `glimpse(cocktails)` where we can see a every column in the data.
+
+To make sense of the structure and variables stats we can also use `skim(cocktails)` from the `skimr` package (you remember - you need to install it firtst and load using  `install.packages(skimr)` and `library(skimr)`)
+
+
+---
+
+```r
+head(cocktails)
+```
+
+```
+## # A tibble: 6 x 13
+##   row_id drink date_modified       id_drink alcoholic category drink_thumb glass
+##    &lt;dbl&gt; &lt;chr&gt; &lt;dttm&gt;                 &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;
+## 1      0 '57 … 2016-07-18 22:49:04    14029 Alcoholic Cocktail http://www… High…
+## 2      0 '57 … 2016-07-18 22:49:04    14029 Alcoholic Cocktail http://www… High…
+## 3      1 1-90… 2016-07-18 22:27:04    15395 Alcoholic Shot     http://www… Old-…
+## 4      1 1-90… 2016-07-18 22:27:04    15395 Alcoholic Shot     http://www… Old-…
+## 5      1 1-90… 2016-07-18 22:27:04    15395 Alcoholic Shot     http://www… Old-…
+## 6      1 1-90… 2016-07-18 22:27:04    15395 Alcoholic Shot     http://www… Old-…
+## # … with 5 more variables: iba &lt;chr&gt;, video &lt;lgl&gt;, ingredient_number &lt;dbl&gt;,
+## #   ingredient &lt;chr&gt;, measure &lt;chr&gt;
+```
+---
+
+```r
+glimpse(cocktails)
+```
+
+```
+## Rows: 2,104
+## Columns: 13
+## $ row_id            &lt;dbl&gt; 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, …
+## $ drink             &lt;chr&gt; "'57 Chevy with a White License Plate", "'57 Chevy …
+## $ date_modified     &lt;dttm&gt; 2016-07-18 22:49:04, 2016-07-18 22:49:04, 2016-07-…
+## $ id_drink          &lt;dbl&gt; 14029, 14029, 15395, 15395, 15395, 15395, 15395, 15…
+## $ alcoholic         &lt;chr&gt; "Alcoholic", "Alcoholic", "Alcoholic", "Alcoholic",…
+## $ category          &lt;chr&gt; "Cocktail", "Cocktail", "Shot", "Shot", "Shot", "Sh…
+## $ drink_thumb       &lt;chr&gt; "http://www.thecocktaildb.com/images/media/drink/qy…
+## $ glass             &lt;chr&gt; "Highball glass", "Highball glass", "Old-fashioned …
+## $ iba               &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ video             &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ ingredient_number &lt;dbl&gt; 1, 2, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 1, 2, 3, 4, 5, …
+## $ ingredient        &lt;chr&gt; "Creme de Cacao", "Vodka", "Absolut Kurant", "Grand…
+## $ measure           &lt;chr&gt; "1 oz white", "1 oz", "1/2 oz", "1/4 oz", "1/4 oz",…
+```
+---
+
+```r
+library(skimr)
+skim(cocktails)
+```
+
+
+Table: Data summary
+
+                                     
+-------------------------  ----------
+Name                       cocktails 
+Number of rows             2104      
+Number of columns          13        
+_______________________              
+Column type frequency:               
+character                  8         
+logical                    1         
+numeric                    3         
+POSIXct                    1         
+________________________             
+Group variables            None      
+-------------------------  ----------
+
+
+**Variable type: character**
+
+skim_variable    n_missing   complete_rate   min   max   empty   n_unique   whitespace
+--------------  ----------  --------------  ----  ----  ------  ---------  -----------
+drink                    0            1.00     2    37       0        546            0
+alcoholic                8            1.00     9    16       0          4            0
+category                 0            1.00     4    20       0         11            0
+drink_thumb              0            1.00    68    68       0        546            0
+glass                    0            1.00     3    24       0         36            0
+iba                   1848            0.12    14    21       0          3            0
+ingredient               0            1.00     3    26       0        333            0
+measure                  0            1.00     1    38       0        435          123
+
+
+**Variable type: logical**
+
+skim_variable    n_missing   complete_rate   mean  count 
+--------------  ----------  --------------  -----  ------
+video                 2104               0    NaN  :     
+
+
+**Variable type: numeric**
+
+skim_variable        n_missing   complete_rate       mean        sd      p0       p25     p50     p75    p100  hist  
+------------------  ----------  --------------  ---------  --------  ------  --------  ------  ------  ------  ------
+row_id                       0               1     267.92    155.76       0     135.0     264     399     545  ▇▇▇▇▇ 
+id_drink                     0               1   13715.29   2116.73   11000   11984.5   12944   15615   17230  ▇▇▃▂▆ 
+ingredient_number            0               1       2.73      1.61       1       1.0       2       4      12  ▇▂▁▁▁ 
+
+
+**Variable type: POSIXct**
+
+skim_variable    n_missing   complete_rate  min                   max                   median                 n_unique
+--------------  ----------  --------------  --------------------  --------------------  --------------------  ---------
+date_modified            3               1  2015-08-13 10:12:27   2017-09-08 18:07:16   2017-01-02 20:18:16         545
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
